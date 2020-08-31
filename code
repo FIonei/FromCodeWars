@@ -1,0 +1,215 @@
+//1-st task
+/*
+A child is playing with a ball on the nth floor of a tall building. The height of this floor, h, is known.
+He drops the ball out of the window. The ball bounces (for example), to two-thirds of its height (a bounce of 0.66).
+His mother looks out of a window 1.5 meters from the ground.
+How many times will the mother see the ball pass in front of her window (including when it's falling and bouncing?
+Three conditions must be met for a valid experiment:
+Float parameter "h" in meters must be greater than 0
+Float parameter "bounce" must be greater than 0 and less than 1
+Float parameter "window" must be less than h.
+If all three conditions above are fulfilled, return a positive integer, otherwise return -1.
+
+Note:
+The ball can only be seen if the height of the rebounding ball is strictly greater than the window parameter.
+
+Функция подсчёта отскоков мяча, если мяч видно только выше высоты окна
+*/
+
+import kotlin.math.*
+fun bouncingBall(h:Double, bounce:Double, window:Double):Int {
+    print("$h $bounce $window")
+    var i: Int = -1
+    if ((h>0)&&(bounce>0)&&(bounce<1)&&(h>window)) {
+        if (h/window == 1/bounce) i=1 else
+        i = log(h/window, 1/bounce).toInt() * 2 + 1}
+    return i
+}
+
+//2-nd task
+/*
+You are given a string of space separated numbers, and have to return the highest and lowest number.
+
+Notes:
+All numbers are valid Int32, no need to validate them.
+There will always be at least one number in the input string.
+Output string must be two numbers separated by a single space, and highest number is first.
+
+Функция вывода наибольшего и наменьшего чисел
+*/
+fun highAndLow(numbers: String): String {
+    var str = ""
+    var arr: Array<Int?> = arrayOf(null, null) //max, min
+  var i: Int = 0
+     println(numbers)
+    while (i<numbers.length) {
+        if (numbers[i]!=' ') {str+=numbers[i] 
+            i++}
+        else {
+            if (arr[1]!=null) { 
+                val s = str.toInt()
+                if (s<arr[1]!!) arr[1]=s else
+                if (s>arr[0]!!) arr[0] = s}
+            else if (arr[0] == null) arr[0] = str.toInt()
+            else { val num = str.toInt()
+                if (num>arr[0]!!) {
+                    arr[1]=arr[0]
+                    arr[0]=num
+                }
+                else arr[1]=num
+            }
+            str = ""
+            i++
+        }
+    }
+        if (arr[0] == null) return (str.toString()+ " " + str.toString())
+        else if (arr[1]==null) { if (arr[0]!! > str.toInt()) return (arr[0].toString() + " " + str.toString())
+        else return(str.toString() + " " + arr[0].toString())}
+        else {val s = str.toInt()
+                if (s<arr[1]!!) arr[1]=s
+                else if (s>arr[0]!!) arr[0] = s
+    return (arr[0].toString() + " " + arr[1].toString())}
+        
+}
+
+//this function doing the same thing, but not optimized; my first solution
+/*fun maxMin(_max: Int?, _min: Int?, x: Int): Array<Int?>{ 
+    var max = _max
+    var min = _min
+    val _arr: Array<Int?> = arrayOf(null,null)
+    if (min!=null){
+    if (max!!<min) {min+=max
+    max=min-max
+    min-=max}
+    if (max<x) {max = x}
+    if (x<min) {min = x}
+    }
+    _arr[0] = max
+    _arr[1] = min
+    return (_arr)
+}*/
+
+
+//3-rd task
+/*
+The two oldest ages function/method needs to be completed. 
+It should take an array of numbers as its argument and return the two highest numbers within the array. 
+The returned value should be an array in the format [second oldest age, oldest age].
+The order of the numbers passed in could be any order. The array will always include at least 2 items.
+For example:
+twoOldestAges(listOf(1, 5, 87, 45, 8, 8)) // should return listOf(45, 87)
+
+Функция вывода двух наибольших возрастов
+*/
+
+fun twoOldestAges(ages: List<Int>): List<Int> {
+    var scdOdA = 0
+    var OdA = 0
+    for (x in ages)
+    if (x>OdA) {scdOdA=OdA
+        OdA = x}
+    else if (x>scdOdA) scdOdA = x
+  return listOf(scdOdA, OdA)
+}
+
+//4-th task
+/*
+Return the number (count) of vowels in the given string.
+We will consider a, e, i, o, u as vowels for this (but not y).
+The input string will only consist of lower case letters and/or spaces.
+
+Функция подсчёта гласных букв нижнего регистра
+*/
+fun getCount(str : String) : Int {
+    val vow : Array<Char> = arrayOf('a','e','i','o','u')
+    var i = 0
+    for (x in str) for (y in vow) if (x == y) {i++
+        continue}
+  return i
+}
+
+//5-th task
+/*
+In a factory a printer prints labels for boxes. For one kind of boxes the printer has to use colors which, 
+for the sake of simplicity, are named with letters from a to m. The colors used by the printer are recorded 
+in a control string. For example a "good" control string would be aaabbbbhaijjjm meaning that the printer 
+used three times color a, four times color b, one time color h then one time color a...
+Sometimes there are problems: lack of colors, technical malfunction and a "bad" control string is produced 
+e.g. aaaxbbbbyyhwawiwjjjwwm with letters not from a to m. You have to write a function printer_error which 
+given a string will return the error rate of the printer as a string representing a rational whose numerator 
+is the number of errors and the denominator the length of the control string. Don't reduce this fraction 
+to a simpler expression. The string has a length greater or equal to one and contains only letters from ato z.
+
+Выведение отношения количества ошибок принтера к общему числу букв (количество букв от n до z к длине строки)
+*/
+fun printerError(s: String) = "${s.count { it in 'n'..'z'}}/${s.length}"  
+
+//6-th task
+/*
+Write a function that takes in a string of one or more words, and returns the same string, 
+but with all five or more letter words reversed. Strings passed in will consist of only letters and spaces. 
+Spaces will be included only when more than one word is present.
+Examples: spinWords( "Hey fellow warriors" ) => returns "Hey wollef sroirraw" 
+spinWords( "This is a test") => returns "This is a test" 
+spinWords( "This is another test" )=> returns "This is rehtona test"
+
+Написание слов задом наперед, если их длина больше 4 символов 
+*/
+
+fun spinWords(sentence: String): String {
+    var str = arrayListOf<String>("")
+    var retstr: String = ""
+    var i = 0
+    for (x: Char in sentence) {
+        if (x!=' ') {var n: String = str[i]
+            n+=x
+            str[i]=n
+        }
+        else {i++
+        str.add("")    
+        }
+    }
+    i=0
+    for (x in str) {if (x.length>4) str[i] = x.reversed()
+    str[i]+=" "
+    i++
+    }
+    for (x in str) retstr = retstr + "$x"
+    retstr=retstr.dropLast(1)
+    return (retstr)
+}
+
+//7-th task
+/*
+Define a function that takes in two non-negative integers a and b and returns the last decimal digit of a^b. Note that a and b may be very large!
+For example, the last decimal digit of 9^7 is 9, since 9^7 = 4782969. The last decimal digit of (2^200)^(2^300), 
+which has over 10^92 decimal digits, is 6. Also, please take 0^0 to be 1. You may assume that the input will always be valid.
+
+Выведение последней цифры результата возведения в степень двух чисел типа BigInteger
+*/
+
+import java.math.BigInteger;
+fun lastDigit(_base: BigInteger, _exp: BigInteger): Int {
+        val zero = BigInteger("0")
+    if (_exp.equals(zero)) return 1
+    else {
+        val ten = BigInteger("10")
+        val scd: Array<Int> = arrayOf(2, 4, 8, 6)
+        val trd: Array<Int> = arrayOf(3, 9, 7, 1)
+        val frt: Array<Int> = arrayOf(4, 6)
+        val svn: Array<Int> = arrayOf(7, 9, 3, 1)
+        val egt: Array<Int> = arrayOf(8, 4, 2, 6)
+        val nne: Array<Int> = arrayOf(9, 1)
+        var exp : Int = _exp.rem(ten.times(ten)).toInt() - 1
+        var base : Int = _base.rem(ten).toInt()
+        when (base) {
+            2 -> {if (exp==-1) exp=3; base = scd[exp%4]}
+            3 -> {if (exp==-1) exp=3; base = trd[exp%4]}
+            4 -> {if (exp==-1) exp=1; base = frt[exp%2]}
+            7 -> {if (exp==-1) exp=3; base = svn[exp%4]}
+            8 -> {if (exp==-1) exp=3; base = egt[exp%4]}
+            9 -> {if (exp==-1) exp=1; base = nne[exp%2]}
+        }
+        return base
+    }
+}
