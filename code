@@ -213,3 +213,52 @@ fun lastDigit(_base: BigInteger, _exp: BigInteger): Int {
         return base
     }
 }
+
+//8-th task
+/*
+Create a function taking a positive integer between 1 and 3999 (both included) as its parameter
+and returning a string containing the Roman Numeral representation of that integer.
+
+Modern Roman numerals are written by expressing each digit separately starting with the left
+most digit and skipping any digit with a value of zero. In Roman numerals 1990 is rendered:
+1000=M, 900=CM, 90=XC; resulting in MCMXC. 2008 is written as 2000=MM, 8=VIII; or MMVIII.
+1666 uses each Roman symbol in descending order: MDCLXVI.
+
+перевод арабских чисел от 1 до 3999 включительно в римские
+ */
+
+fun encode(num: Int): String {
+    var result: String = ""
+    var leastNum = num
+    val mapOfSymbols: Map<Char, Int> =
+        mapOf('M' to 1000, 'D' to 500, 'C' to 100, 'L' to 50, 'X' to 10, 'V' to 5, 'I' to 1)
+    for (index in 0 until mapOfSymbols.size) {
+        val symbol = mapOfSymbols.entries.elementAt(index)
+        val sybSymbol =
+            if (mapOfSymbols.size-1 >= index+1) mapOfSymbols.entries.elementAt(index + 1)
+            else null
+
+        if (sybSymbol != null &&
+            leastNum - symbol.value - sybSymbol.value * 4 >= 0 &&
+            leastNum - symbol.value - sybSymbol.value * 5 < 0 &&
+            symbol.value != sybSymbol.value * 2) {
+            leastNum -= symbol.value + sybSymbol.value * 4
+            result += sybSymbol.key
+            result += mapOfSymbols.entries.elementAtOrNull(index - 1)?.key
+        }
+        if (leastNum - symbol.value >= 0) {
+            var count = 0
+            while (leastNum - symbol.value >= 0) {
+                leastNum -= symbol.value
+                count++
+            }
+            if (count == 4) {
+                result += symbol.key
+                result += mapOfSymbols.entries.elementAt(mapOfSymbols.entries.indexOf(symbol) - 1).key
+            } else {
+                repeat(count) { result += symbol.key }
+            }
+        }
+    }
+    return result
+}
